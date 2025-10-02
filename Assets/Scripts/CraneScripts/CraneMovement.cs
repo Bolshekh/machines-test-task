@@ -8,12 +8,12 @@ public class CraneMovement : MonoBehaviour
 	[SerializeField] Rigidbody CraneHoistRigidbody;
 	[SerializeField] Rigidbody CraneHookRigidbody;
 
-	//bool isCraneMovingUp;
-	//bool isCraneMovingDown;
-	//bool isCraneMovingRight;
-	//bool isCraneMovingLeft;
-	//bool isCraneMovingForward;
-	//bool isCraneMovingBackward;
+	bool isCraneMovingUp;
+	bool isCraneMovingDown;
+	bool isCraneMovingRight;
+	bool isCraneMovingLeft;
+	bool isCraneMovingForward;
+	bool isCraneMovingBackward;
 
 	[SerializeField] float CraneUpSpeed;
 	[SerializeField] float CraneDownSpeed;
@@ -21,6 +21,9 @@ public class CraneMovement : MonoBehaviour
 	[SerializeField] float CraneLeftSpeed;
 	[SerializeField] float CraneForwardSpeed;
 	[SerializeField] float CraneBackwardSpeed;
+
+	float craneMovementTimer;
+	float craneMovementInitTime;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -39,7 +42,19 @@ public class CraneMovement : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		
+		if (isCraneMovingUp) CraneHookRigidbody.AddForce(CraneUpSpeed * transform.up, ForceMode.Force);
+		if (isCraneMovingDown) CraneHookRigidbody.AddForce(CraneDownSpeed * -transform.up, ForceMode.Force);
+		if (isCraneMovingRight) CraneHoistRigidbody.AddForce(CraneRightSpeed * transform.right, ForceMode.Force);
+		if (isCraneMovingLeft) CraneHoistRigidbody.AddForce(CraneLeftSpeed * -transform.right, ForceMode.Force);
+		if (isCraneMovingForward) CraneRigidbody.AddForce(CraneForwardSpeed * transform.forward, ForceMode.Force);
+		if (isCraneMovingBackward) CraneRigidbody.AddForce(CraneBackwardSpeed * -transform.forward, ForceMode.Force);
+
+		isCraneMovingUp = false;
+		isCraneMovingDown = false;
+		isCraneMovingRight = false;
+		isCraneMovingLeft = false;
+		isCraneMovingForward = false;
+		isCraneMovingBackward = false;
 	}
 	public void MoveCraneUp()
 	{
@@ -48,8 +63,8 @@ public class CraneMovement : MonoBehaviour
 		//{
 		//	limit = Mathf.Clamp(Mathf.Lerp(CraneHookRigidbody.transform.position.y, CraneHookRigidbody.transform.position.y + CraneUpSpeed * CraneHookRigidbody.transform.up.y, 0.1f), 0, 4.5f)
 		//};
-		CraneHookRigidbody.AddForce(CraneUpSpeed * transform.up, ForceMode.Force);
-		//isCraneMovingUp = true;
+		//CraneHookRigidbody.AddForce(CraneUpSpeed * transform.up, ForceMode.Force);
+		isCraneMovingUp = true;
 	}
 	public void MoveCraneDown()
 	{
@@ -57,32 +72,32 @@ public class CraneMovement : MonoBehaviour
 		//{
 		//	limit = Mathf.Clamp(Mathf.Lerp(CraneHookRigidbody.transform.position.y, CraneHookRigidbody.transform.position.y + CraneDownSpeed * -CraneHookRigidbody.transform.up.y, 0.1f), 0, 4.5f)
 		//};
-		CraneHookRigidbody.AddForce(CraneDownSpeed * -transform.up, ForceMode.Force);
-		//isCraneMovingDown = true;
+		//CraneHookRigidbody.AddForce(CraneDownSpeed * -transform.up, ForceMode.Force);
+		isCraneMovingDown = true;
 	}
 	public void MoveCraneRight()
 	{
 		//CraneHoistRigidbody.position = (Vector3.Lerp(CraneHoistRigidbody.transform.position, CraneHoistRigidbody.transform.position + CraneRightSpeed * transform.right, 0.5f));
-		CraneHoistRigidbody.AddForce(CraneRightSpeed * transform.right, ForceMode.Force);
-		//isCraneMovingRight = true;
+		//CraneHoistRigidbody.AddForce(CraneRightSpeed * transform.right, ForceMode.Force);
+		isCraneMovingRight = true;
 
 	}
 	public void MoveCraneLeft()
 	{
 		//CraneHoistRigidbody.position = (Vector3.Lerp(CraneHoistRigidbody.transform.position, CraneHoistRigidbody.transform.position + CraneRightSpeed * -transform.right, 0.5f));
-		CraneHoistRigidbody.AddForce(CraneLeftSpeed * -transform.right, ForceMode.Force);
-		//isCraneMovingLeft = true;
+		//CraneHoistRigidbody.AddForce(CraneLeftSpeed * -transform.right, ForceMode.Force);
+		isCraneMovingLeft = true;
 	}
 	public void MoveCraneForward()
 	{
 
-		CraneRigidbody.AddForce(CraneForwardSpeed * transform.forward, ForceMode.Force);
-		//isCraneMovingForward = true;
+		//CraneRigidbody.AddForce(CraneForwardSpeed * transform.forward, ForceMode.Force);
+		isCraneMovingForward = true;
 	}
 	public void MoveCraneBackward()
 	{
 
-		CraneRigidbody.AddForce(CraneBackwardSpeed * -transform.forward, ForceMode.Force);
-		//isCraneMovingBackward = true;
+		//CraneRigidbody.AddForce(CraneBackwardSpeed * -transform.forward, ForceMode.Force);
+		isCraneMovingBackward = true;
 	}
 }
